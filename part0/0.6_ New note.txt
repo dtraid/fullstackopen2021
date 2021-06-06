@@ -1,0 +1,8 @@
+title 0.6: New note
+
+note over browser: user writes something on the "note" text field
+note over browser: user clicks the "Save" button
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa, data as JSON
+note over server: server adds the note to its notes array
+server-->browser: HTTP 201 (created)
+note over browser: spa.js creates the new note, adds it to the notes list and renders the list again
