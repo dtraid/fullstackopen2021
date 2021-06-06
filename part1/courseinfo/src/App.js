@@ -23,6 +23,10 @@ const App = () => {
 const Header = (props) => <h1>{props.course}</h1>;
 
 const Content = (props) => (
+  <Part part={props.part} exercises={props.exercises} />
+);
+
+const Part = (props) => (
   <p>
     {props.part} {props.exercises}
   </p>
