@@ -21,8 +21,10 @@ const Part = ({ part }) => (
 
 const Total = ({ course }) => (
   <p>
-    Number of exercises{' '}
-    {course.parts.reduce((total, part) => part.exercises + total, 0)}
+    <strong>
+      total of {course.parts.reduce((total, part) => part.exercises + total, 0)}{' '}
+      exercises
+    </strong>
   </p>
 );
 
@@ -56,6 +58,7 @@ const App = () => {
       },
     ],
   };
+
   return <Course course={course} />;
 };
 
