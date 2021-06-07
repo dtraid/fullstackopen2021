@@ -23,25 +23,26 @@ const Button = ({ handleClick, text }) => (
 );
 
 const Statistics = ({ good, neutral, bad }) => {
-  if (good + neutral + bad === 0) return <p>No feedback given</p>;
+  if (good + neutral + bad === 0) return <div>No feedback given</div>;
 
   const sum = good + neutral + bad;
 
   return (
-    <p>
-      good {good}
-      <br />
-      neutral {neutral}
-      <br />
-      bad {bad}
-      <br />
-      all {sum}
-      <br />
-      average {(good - bad) / sum}
-      <br />
-      positive {(good / sum) * 100} %
-    </p>
+    <div>
+      <Statistic text="good" value={good} />
+      <Statistic text="neutral" value={neutral} />
+      <Statistic text="bad" value={bad} />
+      <Statistic text="all" value={sum} />
+      <Statistic text="average" value={(good - bad) / sum} />
+      <Statistic text="positive" value={`${(good / sum) * 100} %`} />
+    </div>
   );
 };
+
+const Statistic = ({ text, value }) => (
+  <div>
+    {text} {value}
+  </div>
+);
 
 export default App;
