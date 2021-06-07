@@ -11,27 +11,37 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blod tests when dianosing patients',
   ];
 
-  const randomAnecdote = (anecdotes) => (anecdotes.length * Math.random()) | 0;
+  const [selected, setSelected] = useState(0);
+  const [votes, setVotes] = useState(Array(anecdotes.length).fill(0));
 
-  const [selected, setSelected] = useState(randomAnecdote(anecdotes));
-  const [votes, setVotes] = useState({});
+  const randomAnecdote = (anecdotes) => {
+    setSelected((anecdotes.length * Math.random()) | 0);
+  };
 
   const voteAnecdote = (index) => {
-    setVotes({
-      ...votes,
-      [index]: isNaN(votes[index]) ? 1 : votes[index] + 1,
-    });
+    setVotes(
+      votes
+        .slice(0, index)
+        .concat(votes[index] + 1)
+        .concat(votes.slice(index + 1))
+    );
   };
+
+  const mostVotedAnecdote = (votes) => votes.indexOf(Math.max(...votes));
 
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <Anecdote anecdote={anecdotes[selected]} />
       <Votes votes={votes[selected]} />
       <Button text="vote" handleClick={() => voteAnecdote(selected)} />
       <Button
         text="next anecdote"
-        handleClick={() => setSelected(randomAnecdote(anecdotes))}
+        handleClick={() => randomAnecdote(anecdotes)}
       />
+      <h1>Anecdote with most votes</h1>
+      <Anecdote anecdote={anecdotes[mostVotedAnecdote(votes)]} />
+      has {votes[mostVotedAnecdote(votes)]} votes
     </div>
   );
 };
