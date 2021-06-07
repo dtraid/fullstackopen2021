@@ -11,20 +11,34 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blod tests when dianosing patients',
   ];
 
-  const [selected, setSelected] = useState(0);
+  const randomAnecdote = (anecdotes) => (anecdotes.length * Math.random()) | 0;
+
+  const [selected, setSelected] = useState(randomAnecdote(anecdotes));
+  const [votes, setVotes] = useState({});
+
+  const voteAnecdote = (index) => {
+    setVotes({
+      ...votes,
+      [index]: isNaN(votes[index]) ? 1 : votes[index] + 1,
+    });
+  };
 
   return (
     <div>
       <Anecdote anecdote={anecdotes[selected]} />
+      <Votes votes={votes[selected]} />
+      <Button text="vote" handleClick={() => voteAnecdote(selected)} />
       <Button
         text="next anecdote"
-        handleClick={() => setSelected((anecdotes.length * Math.random()) | 0)}
+        handleClick={() => setSelected(randomAnecdote(anecdotes))}
       />
     </div>
   );
 };
 
 const Anecdote = ({ anecdote }) => <div>{anecdote}</div>;
+
+const Votes = ({ votes }) => <div>has {isNaN(votes) ? 0 : votes} votes</div>;
 
 const Button = ({ text, handleClick }) => (
   <button onClick={handleClick}>{text}</button>
