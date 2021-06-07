@@ -1,40 +1,5 @@
 import React from 'react';
-
-const Header = ({ course }) => <h1>{course.name}</h1>;
-
-const Content = ({ course }) => (
-  <div>
-    {course.parts.map((part) => (
-      <p id={part.id}>
-        {' '}
-        <Part part={part} />
-      </p>
-    ))}
-  </div>
-);
-
-const Part = ({ part }) => (
-  <p>
-    {part.name} {part.exercises}
-  </p>
-);
-
-const Total = ({ course }) => (
-  <p>
-    <strong>
-      total of {course.parts.reduce((total, part) => part.exercises + total, 0)}{' '}
-      exercises
-    </strong>
-  </p>
-);
-
-const Course = ({ course }) => (
-  <>
-    <Header course={course} />
-    <Content course={course} />
-    <Total course={course} />
-  </>
-);
+import Course from './components/Course';
 
 const App = () => {
   const courses = [
@@ -85,7 +50,7 @@ const App = () => {
   return (
     <>
       {courses.map((course) => (
-        <div id={course.id}>
+        <div key={course.id}>
           <Course course={course} />
         </div>
       ))}
