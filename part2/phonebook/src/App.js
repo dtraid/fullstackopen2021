@@ -10,23 +10,30 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('');
   const [filter, setFilter] = useState('');
 
+  const jsonServer = 'http://localhost:3001';
+
   useEffect(
     () =>
-      axios
-        .get('http://localhost:3001/persons')
-        .then((res) => setPersons(res.data)),
+      axios.get(`${jsonServer}/persons`).then((res) => setPersons(res.data)),
     []
   );
 
   const addPerson = (event) => {
     event.preventDefault();
 
+    const personObject = {
+      name: newName,
+      number: newNumber,
+    };
+
     if (persons.some((person) => person.name === newName)) {
       window.alert(`${newName} is already added to phonebook`);
     } else {
-      setPersons([...persons, { name: newName, number: newNumber }]);
-      setNewName('');
-      setNewNumber('');
+      axios.post(`${jsonServer}/persons`, personObject).then((res) => {
+        setPersons([...persons, res.data]);
+        setNewName('');
+        setNewNumber('');
+      });
     }
   };
 
