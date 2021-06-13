@@ -20,12 +20,30 @@ const App = () => {
       number: newNumber,
     };
 
-    if (persons.some((person) => person.name === newName)) {
-      window.alert(`${newName} is already added to phonebook`);
+    const duplicate = persons.find(
+      (person) => person.name === personObject.name
+    );
+
+    if (duplicate) {
+      updatePerson(duplicate, personObject);
     } else {
       personService.create(personObject).then((res) => {
         setPersons([...persons, res]);
 
+        setNewName('');
+        setNewNumber('');
+      });
+    }
+  };
+
+  const updatePerson = (person, changes) => {
+    if (person.number === changes.number) {
+      window.alert(`${newName} is already added to phonebook`);
+    } else {
+      personService.update(person, { ...changes }).then((res) => {
+        setPersons(
+          persons.map((person) => (person.id === res.id ? res : person))
+        );
         setNewName('');
         setNewNumber('');
       });
