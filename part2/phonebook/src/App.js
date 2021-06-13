@@ -32,16 +32,20 @@ const App = () => {
     }
   };
 
-  const handleNameChange = (event) => {
-    setNewName(event.target.value);
-  };
+  const handleNameChange = (event) => setNewName(event.target.value);
+  const handleNumberChange = (event) => setNewNumber(event.target.value);
+  const handleSearchChange = (event) => setFilter(event.target.value);
 
-  const handleNumberChange = (event) => {
-    setNewNumber(event.target.value);
-  };
-
-  const handleSearchChange = (event) => {
-    setFilter(event.target.value);
+  const handleRemove = (personToRemove) => {
+    if (window.confirm(`Delete ${personToRemove.name}?`)) {
+      personService
+        .remove(personToRemove.id)
+        .then((_) =>
+          setPersons(
+            persons.filter((person) => person.id !== personToRemove.id)
+          )
+        );
+    }
   };
 
   return (
@@ -57,7 +61,7 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <Persons persons={persons} filter={filter} />
+      <Persons persons={persons} filter={filter} handleRemove={handleRemove} />
     </div>
   );
 };
