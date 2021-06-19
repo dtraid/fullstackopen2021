@@ -88,12 +88,12 @@ const App = () => {
     if (window.confirm(`Delete ${name}?`)) {
       personService
         .remove(_id)
-        .then((_) => {
+        .then(() => {
           showNotification(`Removed ${name} from phonebook`, 'success');
 
           removePersonFromPersons(_id);
         })
-        .catch((_error) => {
+        .catch(() => {
           showNotification(
             `Information of ${name} has already been removed from server`,
             'error'
