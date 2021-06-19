@@ -73,24 +73,23 @@ const App = () => {
   const handleSearchChange = (event) => setFilter(event.target.value);
 
   const handleRemove = (personToRemove) => {
-    if (window.confirm(`Delete ${personToRemove.name}?`)) {
-      personService
-        .remove(personToRemove.id)
-        .then((_) => {
-          showNotification(
-            `Removed ${personToRemove.name} from phonebook`,
-            'success'
-          );
+    const { _id: id, name } = personToRemove;
 
-          removePersonFromPersons(personToRemove.id);
+    if (window.confirm(`Delete ${name}?`)) {
+      personService
+        .remove(id)
+        .then((_) => {
+          showNotification(`Removed ${name} from phonebook`, 'success');
+
+          removePersonFromPersons(id);
         })
         .catch((_error) => {
           showNotification(
-            `Information of ${personToRemove.name} has already been removed from server`,
+            `Information of ${name} has already been removed from server`,
             'error'
           );
 
-          removePersonFromPersons(personToRemove.id);
+          removePersonFromPersons(id);
         });
     }
   };
