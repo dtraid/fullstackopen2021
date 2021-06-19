@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = '/api/persons';
+const baseUrl = 'https://superphonebook2turbo.herokuapp.com/api/persons';
 
 const getAll = () => {
   const request = axios.get(baseUrl);
@@ -18,7 +18,7 @@ const remove = (id) => {
 };
 
 const update = (person, newInfo) => {
-  const request = axios.put(`${baseUrl}/${person.id}`, {
+  const request = axios.put(`${baseUrl}/${person._id}`, {
     ...person,
     ...newInfo,
   });

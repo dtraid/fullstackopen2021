@@ -73,15 +73,15 @@ const App = () => {
   const handleSearchChange = (event) => setFilter(event.target.value);
 
   const handleRemove = (personToRemove) => {
-    const { _id: id, name } = personToRemove;
+    const { _id, name } = personToRemove;
 
     if (window.confirm(`Delete ${name}?`)) {
       personService
-        .remove(id)
+        .remove(_id)
         .then((_) => {
           showNotification(`Removed ${name} from phonebook`, 'success');
 
-          removePersonFromPersons(id);
+          removePersonFromPersons(_id);
         })
         .catch((_error) => {
           showNotification(
@@ -89,7 +89,7 @@ const App = () => {
             'error'
           );
 
-          removePersonFromPersons(id);
+          removePersonFromPersons(_id);
         });
     }
   };
