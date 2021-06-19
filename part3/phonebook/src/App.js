@@ -39,12 +39,17 @@ const App = () => {
     if (duplicate) {
       updatePerson(duplicate, personObject);
     } else {
-      personService.create(personObject).then((res) => {
-        showNotification(`Added ${res.name} to phonebook`, 'success');
-        setPersons([...persons, res]);
-        setNewName('');
-        setNewNumber('');
-      });
+      personService
+        .create(personObject)
+        .then((res) => {
+          showNotification(`Added ${res.name} to phonebook`, 'success');
+          setPersons([...persons, res]);
+          setNewName('');
+          setNewNumber('');
+        })
+        .catch((err) => {
+          showNotification(err.response.data.error, 'error');
+        });
     }
   };
 
@@ -52,19 +57,24 @@ const App = () => {
     if (person.number === changes.number) {
       showNotification(`${newName} is already added to phonebook`, 'error');
     } else {
-      personService.update(person, { ...changes }).then((res) => {
-        setPersons(
-          persons.map((person) => (person._id === res._id ? res : person))
-        );
+      personService
+        .update(person, { ...changes })
+        .then((res) => {
+          setPersons(
+            persons.map((person) => (person._id === res._id ? res : person))
+          );
 
-        showNotification(
-          `Updated ${res.name} with phone number ${res.number}`,
-          'success'
-        );
+          showNotification(
+            `Updated ${res.name} with phone number ${res.number}`,
+            'success'
+          );
 
-        setNewName('');
-        setNewNumber('');
-      });
+          setNewName('');
+          setNewNumber('');
+        })
+        .catch((err) => {
+          showNotification(err.response.data.error, 'error');
+        });
     }
   };
 
