@@ -14,7 +14,7 @@ const App = () => {
   const [notificationType, setNotificationType] = useState();
 
   const removePersonFromPersons = (id) =>
-    setPersons(persons.filter((person) => id !== person.id));
+    setPersons(persons.filter((person) => id !== person._id));
 
   useEffect(() => personService.getAll().then((res) => setPersons(res)), []);
 
@@ -54,7 +54,7 @@ const App = () => {
     } else {
       personService.update(person, { ...changes }).then((res) => {
         setPersons(
-          persons.map((person) => (person.id === res.id ? res : person))
+          persons.map((person) => (person._id === res._id ? res : person))
         );
 
         showNotification(
